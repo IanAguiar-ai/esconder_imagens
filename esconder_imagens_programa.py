@@ -18,6 +18,12 @@ from tkinter import filedialog
 from tkinter.filedialog import askopenfilename
 from PIL import ImageTk, Image
 
+try:
+    from platform import system
+    print(f"Rodando em {system()}")
+except:
+    def system():
+        return "NONE"
 
 #Classe para paralelizar a tarefa:
 class paralelo:
@@ -41,7 +47,10 @@ class paralelo:
 def escolher_dir():
     global caminho
 
-    x_ = 210
+    if system() == "Linux":
+        x_ = 240
+    else:
+        x_ = 210 
     y_ = 545
 
     Tk().withdraw()
@@ -129,7 +138,7 @@ def plot_img():
         
         globals()["img_1_original"] = img1
 
-        Button(grafico, text = chr(128064),
+        Button(grafico, text = "Ver",
            bg = '#d9d948', borderwidth = 1, font = "Arial 12", activebackground = '#b3b337',
            activeforeground = 'Black', fg = 'Black',
            command = ver_img_1).place(x = 155, y = 582)
@@ -165,7 +174,7 @@ def plot_img():
 
         globals()["img_2_original"] = img2
 
-        Button(grafico, text = chr(128064),
+        Button(grafico, text = "Ver",
            bg = '#d9d948', borderwidth = 1, font = "Arial 12", activebackground = '#b3b337',
            activeforeground = 'Black', fg = 'Black',
            command = ver_img_2).place(x = 260 + 160, y = 582)
@@ -368,128 +377,255 @@ if __name__ == "__main__":
           borderwidth = 4, relief = "sunken").place(x = 15, y = 70)
 
 
-    #Botões:
-    loc_1 = (18, 20)
-    Button(grafico, text = "Escolher imagem principal",
-           bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = imagem_principal).place(x = loc_1[0], y = loc_1[1])
+    if system() == "Linux":
+        #Botões:
+        loc_1 = (18, 20)
+        
+        Button(grafico, text = "Escolher imagem principal",
+               bg = cor_3, borderwidth = 1, font = "Arial 11", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = imagem_principal).place(x = loc_1[0], y = loc_1[1])
 
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_escolha_img).place(x = loc_1[0] + 200, y = loc_1[1])
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 7", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_escolha_img).place(x = loc_1[0] + 197, y = loc_1[1])
 
-    Button(grafico, text = "Escolher imagem escondida",
-           bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = imagem_escondida).place(x = loc_1[0] + 235, y = loc_1[1])
+        Button(grafico, text = "Escolher imagem escondida",
+               bg = cor_3, borderwidth = 1, font = "Arial 11", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = imagem_escondida).place(x = loc_1[0] + 235, y = loc_1[1])
 
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_escolha_img).place(x = loc_1[0] + 235 + 214, y = loc_1[1])
-
-
-    #Caixa de texto:
-    texto = Text(grafico, width = 59, height = 10,
-                 font = "Times 12", borderwidth = 2,
-                 relief = "sunken")
-
-    texto.place(x = 13, y = 155)
-
-    Button(grafico, text = chr(128465),
-           bg = cor_6, borderwidth = 1, font = "Arial 12", activebackground = cor_7,
-           activeforeground = 'White', fg = 'White',
-           command = limpar).place(x = 457, y = 155)
-
-    #Botões finais:
-    #Esconder e ler texto:
-    loc_1 = (18, 380)
-    Button(grafico, text = "Esconder texto",
-           bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = esconder_texto).place(x = loc_1[0], y = loc_1[1])
-
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_esconder_texto).place(x = loc_1[0] + 120, y = loc_1[1])
-
-    Button(grafico, text = "Ler texto escondido",
-           bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ler_texto).place(x = loc_1[0] + 235, y = loc_1[1])
-
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_ler_texto).place(x = loc_1[0] + 235 + 153, y = loc_1[1])
-
-    #Esconder e ler imagem:
-    loc_1 = (18, 420)
-    Button(grafico, text = "Esconder imagem",
-           bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = esconder_imagem).place(x = loc_1[0], y = loc_1[1])
-
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_esconder_imagem).place(x = loc_1[0] + 145, y = loc_1[1])
-
-    Button(grafico, text = "Pegar imagem escondida",
-           bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = obter_imagem).place(x = loc_1[0] + 235, y = loc_1[1])
-
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_ler_imagem).place(x = loc_1[0] + 235 + 197, y = loc_1[1])
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 7", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_escolha_img).place(x = loc_1[0] + 235 + 209, y = loc_1[1])
 
 
-    #Qualidade:
-    Label(grafico, text = "Qualidade da imagem:",
-          font = "Times 14", bg = cor_4, fg = 'White').place(x = loc_1[0], y = loc_1[1] + 40)
-    
-    ttk.Combobox(grafico, textvariable = qualidade,
-                 values = [128, 64, 32, 16],
-                 width = 3, font = "Times 14").place(x = loc_1[0] + 175, y = loc_1[1] + 40)
+        #Caixa de texto:
+        texto = Text(grafico, width = 59, height = 10,
+                     font = "Times 12", borderwidth = 2,
+                     relief = "sunken")
 
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_qualidade).place(x = loc_1[0] + 230, y = loc_1[1] + 40)
+        texto.place(x = 13, y = 155)
 
-    quantidade_rgb()
-    
+        Button(grafico, text = "X",
+               bg = cor_6, borderwidth = 1, font = "Arial 12", activebackground = cor_7,
+               activeforeground = 'White', fg = 'White',
+               command = limpar).place(x = 454, y = 155)
 
-    #Nome do arquivo:
-    Label(grafico, text = "Salvar arquivo com o nome:",
-          font = "Times 14", bg = cor_4, fg = 'White').place(x = loc_1[0], y = loc_1[1] + 80)
-    
+        #Botões finais:
+        #Esconder e ler texto:
+        loc_1 = (18, 380)
+        Button(grafico, text = "Esconder texto",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = esconder_texto).place(x = loc_1[0], y = loc_1[1])
 
-    Entry(grafico, textvariable = arquivo_nome,
-          font = "Times 14", width = 23).place(x = loc_1[0] + 220, y = loc_1[1] + 80)
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 10", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_esconder_texto).place(x = loc_1[0] + 135, y = loc_1[1])
 
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_nome_arquivo).place(x = loc_1[0] + 436 , y = loc_1[1] + 80)
+        Button(grafico, text = "Ler texto escondido",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ler_texto).place(x = loc_1[0] + 235, y = loc_1[1])
 
-    loc_1 = (loc_1[0], loc_1[1] + 120)
-    
-    #Salvar em:
-    Button(grafico, text = "Local de salvamento",
-           bg = '#34a1d9', borderwidth = 1, font = "Arial 12", activebackground = '#0d858e',
-           activeforeground = 'White', fg = 'White',
-           command = escolher_dir).place(x = loc_1[0], y = loc_1[1])
-    
-    Button(grafico, text = "?",
-           bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
-           activeforeground = 'White', fg = 'White',
-           command = ajuda_local_salvar).place(x = loc_1[0] + 160, y = loc_1[1])
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 10", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_ler_texto).place(x = loc_1[0] + 235 + 168, y = loc_1[1])
+
+        #Esconder e ler imagem:
+        loc_1 = (18, 420)
+        Button(grafico, text = "Esconder imagem",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = esconder_imagem).place(x = loc_1[0], y = loc_1[1])
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 10", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_esconder_imagem).place(x = loc_1[0] + 158, y = loc_1[1])
+
+        Button(grafico, text = "Pegar imagem escondida",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = obter_imagem).place(x = loc_1[0] + 235, y = loc_1[1])
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 10", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_ler_imagem).place(x = loc_1[0] + 235 + 211, y = loc_1[1])
+
+
+        #Qualidade:
+        Label(grafico, text = "Qualidade da imagem:",
+              font = "Times 14", bg = cor_4, fg = 'White').place(x = loc_1[0], y = loc_1[1] + 40)
+        
+        ttk.Combobox(grafico, textvariable = qualidade,
+                     values = [128, 64, 32, 16],
+                     width = 3, font = "Times 14").place(x = loc_1[0] + 175, y = loc_1[1] + 40)
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 10", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_qualidade).place(x = loc_1[0] + 222, y = loc_1[1] + 40)
+
+        quantidade_rgb()
+        
+
+        #Nome do arquivo:
+        Label(grafico, text = "Salvar arquivo com o nome:",
+              font = "Times 14", bg = cor_4, fg = 'White').place(x = loc_1[0], y = loc_1[1] + 80)
+        
+
+        Entry(grafico, textvariable = arquivo_nome,
+              font = "Times 14", width = 23).place(x = loc_1[0] + 220, y = loc_1[1] + 80)
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 10", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_nome_arquivo).place(x = loc_1[0] + 436 , y = loc_1[1] + 80)
+
+        loc_1 = (loc_1[0], loc_1[1] + 120)
+        
+        #Salvar em:
+        Button(grafico, text = "Local de salvamento",
+               bg = '#34a1d9', borderwidth = 1, font = "Arial 12", activebackground = '#0d858e',
+               activeforeground = 'White', fg = 'White',
+               command = escolher_dir).place(x = loc_1[0], y = loc_1[1])
+        
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_local_salvar).place(x = loc_1[0] + 176, y = loc_1[1])
+
+    else:
+        #Botões:
+        loc_1 = (18, 20)
+        
+        Button(grafico, text = "Escolher imagem principal",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = imagem_principal).place(x = loc_1[0], y = loc_1[1])
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_escolha_img).place(x = loc_1[0] + 200, y = loc_1[1])
+
+        Button(grafico, text = "Escolher imagem escondida",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = imagem_escondida).place(x = loc_1[0] + 235, y = loc_1[1])
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_escolha_img).place(x = loc_1[0] + 235 + 214, y = loc_1[1])
+
+
+        #Caixa de texto:
+        texto = Text(grafico, width = 59, height = 10,
+                     font = "Times 12", borderwidth = 2,
+                     relief = "sunken")
+
+        texto.place(x = 13, y = 155)
+
+        Button(grafico, text = chr(128465),
+               bg = cor_6, borderwidth = 1, font = "Arial 12", activebackground = cor_7,
+               activeforeground = 'White', fg = 'White',
+               command = limpar).place(x = 457, y = 155)
+
+        #Botões finais:
+        #Esconder e ler texto:
+        loc_1 = (18, 380)
+        Button(grafico, text = "Esconder texto",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = esconder_texto).place(x = loc_1[0], y = loc_1[1])
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_esconder_texto).place(x = loc_1[0] + 120, y = loc_1[1])
+
+        Button(grafico, text = "Ler texto escondido",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ler_texto).place(x = loc_1[0] + 235, y = loc_1[1])
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_ler_texto).place(x = loc_1[0] + 235 + 153, y = loc_1[1])
+
+        #Esconder e ler imagem:
+        loc_1 = (18, 420)
+        Button(grafico, text = "Esconder imagem",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = esconder_imagem).place(x = loc_1[0], y = loc_1[1])
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_esconder_imagem).place(x = loc_1[0] + 145, y = loc_1[1])
+
+        Button(grafico, text = "Pegar imagem escondida",
+               bg = cor_3, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = obter_imagem).place(x = loc_1[0] + 235, y = loc_1[1])
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_ler_imagem).place(x = loc_1[0] + 235 + 197, y = loc_1[1])
+
+
+        #Qualidade:
+        Label(grafico, text = "Qualidade da imagem:",
+              font = "Times 14", bg = cor_4, fg = 'White').place(x = loc_1[0], y = loc_1[1] + 40)
+        
+        ttk.Combobox(grafico, textvariable = qualidade,
+                     values = [128, 64, 32, 16],
+                     width = 3, font = "Times 14").place(x = loc_1[0] + 175, y = loc_1[1] + 40)
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_qualidade).place(x = loc_1[0] + 230, y = loc_1[1] + 40)
+
+        quantidade_rgb()
+        
+
+        #Nome do arquivo:
+        Label(grafico, text = "Salvar arquivo com o nome:",
+              font = "Times 14", bg = cor_4, fg = 'White').place(x = loc_1[0], y = loc_1[1] + 80)
+        
+
+        Entry(grafico, textvariable = arquivo_nome,
+              font = "Times 14", width = 23).place(x = loc_1[0] + 220, y = loc_1[1] + 80)
+
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_nome_arquivo).place(x = loc_1[0] + 436 , y = loc_1[1] + 80)
+
+        loc_1 = (loc_1[0], loc_1[1] + 120)
+        
+        #Salvar em:
+        Button(grafico, text = "Local de salvamento",
+               bg = '#34a1d9', borderwidth = 1, font = "Arial 12", activebackground = '#0d858e',
+               activeforeground = 'White', fg = 'White',
+               command = escolher_dir).place(x = loc_1[0], y = loc_1[1])
+        
+        Button(grafico, text = "?",
+               bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
+               activeforeground = 'White', fg = 'White',
+               command = ajuda_local_salvar).place(x = loc_1[0] + 160, y = loc_1[1])
 
     grafico.mainloop()
 
