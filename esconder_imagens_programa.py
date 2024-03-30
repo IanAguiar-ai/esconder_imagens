@@ -8,7 +8,7 @@ import esconder_imgs
 import os
 from time import sleep
 
-from threading import Thread
+from threading import Thread, active_count
 
 #Grafico:
 from tkinter import *
@@ -31,13 +31,11 @@ class paralelo:
         self.func = func
 
     def __call__(self, *args, **kwargs):
-        from threading import Thread
-
         pr = Thread(target = self.func, args = [*args])
         pr.start()
 
         if self.func.__name__ != "esconder_texto" or self.func.__name__ != "quantidade_rgb":
-            texto.insert("1.0", "Carregando...\n\n")
+            texto.insert("1.0", "")
 
     def __repr__(self):
         return str(self.memoria)
@@ -110,7 +108,8 @@ def plot_img():
     if not "caminho_1" in globals() and not "caminho_2" in globals():
         Label(grafico, text = " "*10,
               font = "Times 350", bg = cor_4, fg = 'White').place(x = 10, y = 580)
-        grafico.geometry("500x588")
+        globals()["proporcao_tela"] = "500x588"
+        grafico.geometry(globals()["proporcao_tela"])
         return
 
     if not "caminho_1" in globals():
@@ -132,8 +131,9 @@ def plot_img():
 
         Label(grafico, text = " "*2,
               font = "Times 350", bg = cor_4, fg = 'White').place(x = 10, y = 605)
-        
-        grafico.geometry("500x730")
+
+        globals()["proporcao_tela"] = "500x730"
+        grafico.geometry(globals()["proporcao_tela"])
         img1 = Image.open(caminho_1)
         
         globals()["img_1_original"] = img1
@@ -168,8 +168,9 @@ def plot_img():
 
         Label(grafico, text = " "*2,
               font = "Times 350", bg = cor_4, fg = 'White').place(x = 260, y = 605)
-        
-        grafico.geometry("500x730")
+
+        globals()["proporcao_tela"] = "500x730"
+        grafico.geometry(globals()["proporcao_tela"])
         img2 = Image.open(caminho_2)
 
         globals()["img_2_original"] = img2
@@ -240,8 +241,11 @@ def esconder_texto():
         texto_ = texto.get("1.0","1000.1000")
             
         img = esconder_imgs.main3(caminho_1, texto_)
-
-        salv = caminho + "\\" + arquivo_nome.get() + ".png"
+        print(caminho)
+        if system() == "Linux":
+            salv = caminho + "/" + arquivo_nome.get() + ".png"
+        else:
+            salv = caminho + "\\" + arquivo_nome.get() + ".png"
         img.save(salv)
             
         messagebox.showinfo(title = "Informação", message = "Salvo em " + salv + ".")
@@ -293,7 +297,27 @@ def obter_imagem():
     else:
         messagebox.showinfo(title = "Informação", message = "Você não escolheu a imagem que você quer ler!")
     
-    
+@paralelo
+def quantos_threads():
+    """
+    Corrige a proporção da tela
+    """
+    while True:
+        try:
+            grafico.geometry(proporcao_tela)
+            hm = active_count()
+            if hm < 10:
+                hm = "0"+str(hm)
+            Label(grafico, text = f"Threads ativos: {str(hm)}",
+                          font = "Times 10", bg = cor_4, fg = 'White',
+                          borderwidth = 0, relief = "sunken").place(x = 20, y = 340)
+        except RuntimeError:
+            break
+        except _tkinter.TclError:
+            break
+        sleep(3)
+
+
 #Caixas de ajuda:
 def ajuda_escolha_img():
     messagebox.showinfo(title = "Informação", message = "Você pode escolher imagens com extensão png, jpeg e jpg.")
@@ -325,20 +349,27 @@ def ajuda_local_salvar():
 def quantidade_rgb():
     #Qualidade:
     ant = ""
-    while True:
-        novo = str(qualidade.get()**3) + " cores possíveis"
 
-        if novo != ant:
-            Label(grafico, text = " " * 50,
-                  font = "Times 14", bg = cor_4, fg = 'White').place(x = 280, y = 460)
-            Label(grafico, text = novo,
-                  font = "Times 14", bg = cor_4, fg = 'White').place(x = 280, y = 460)
-        
-            ant = str(qualidade.get()**3) + " cores possíveis"
+    if system() == "Linux":
+        y_ = 465
+    else:
+        y_ = 460
+    
+    while True:
+        try:
+            novo = str(qualidade.get()**3) + " cores possíveis"
+
+            if novo != ant:
+                Label(grafico, text = " " * 50,
+                        font = "Times 14", bg = cor_4, fg = 'White').place(x = 280, y = y_)
+                Label(grafico, text = novo,
+                        font = "Times 14", bg = cor_4, fg = 'White').place(x = 280, y = y_)
+                ant = str(qualidade.get()**3) + " cores possíveis"
+
+        except RuntimeError:
+            break
 
         sleep(0.2)
-
-    
 
 ### Parte gráfica:
 if __name__ == "__main__":
@@ -347,7 +378,8 @@ if __name__ == "__main__":
     
     grafico = Tk()
 
-    grafico.geometry("500x588")
+    proporcao_tela = "500x588"
+    grafico.geometry(proporcao_tela)
     grafico.resizable(width = True, height = True)
     grafico.title("Escondendo em imagens")
 
@@ -626,6 +658,8 @@ if __name__ == "__main__":
                bg = cor_5, borderwidth = 1, font = "Arial 12", activebackground = cor_5,
                activeforeground = 'White', fg = 'White',
                command = ajuda_local_salvar).place(x = loc_1[0] + 160, y = loc_1[1])
+
+    quantos_threads()
 
     grafico.mainloop()
 

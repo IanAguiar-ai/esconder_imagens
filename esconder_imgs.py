@@ -167,35 +167,3 @@ def ler(img):
             texto += l[n[0]*16 + n[1]*4 + n[2]]
 
     return texto.replace("  ","")
-
-if __name__ == "__main__":
-    from time import time
-
-##    a = time()
-##    img = main1("m1.jpg","m2.jpg","m3.jpg")
-##    b = time()
-##
-##    print(b-a)
-
-    bit = 64
-
-    nome = "teste.png"
-
-    a = time()
-    img = main2("m1.jpeg","m2.png",bit)
-    img.save(nome)
-    b = time()
-
-    print(b-a)
-
-    img = converter(nome, bit)
-    img.save("secreto.png")
-
-##    img = main3("m1.jpg","Olá tudo bem? \nIsso é um teste.")
-##    img.save(nome)
-##
-##    print(ler(nome))
-
-    
-    
-
